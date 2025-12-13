@@ -37,6 +37,18 @@ function AccountContainer() {
     .then(r=>r.json())
     .then(data=>setTransactions([...transactions,data]))
   }
+
+  // DELETE transaction and update state
+  function deleteTransaction(id){
+    fetch(`http://localhost:6001/transactions/${id}`,{
+      method: "DELETE"
+    })
+    .then(r=>r.json())
+    .then(()=>{
+      const updatedTransactions = transactions.filter(transaction => transaction.id !== id)
+      setTransactions(updatedTransactions)
+    })
+  }
   
   // Update sort criteria
   function onSort(sortBy){
@@ -56,7 +68,7 @@ function AccountContainer() {
       <Search setSearch={setSearch}/>
       <AddTransactionForm postTransaction={postTransaction}/>
       <Sort onSort={onSort}/>
-      <TransactionsList transactions={filteredTransactions} />
+      <TransactionsList transactions={filteredTransactions} deleteTransaction={deleteTransaction}/>
     </div>
   );
 }

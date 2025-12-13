@@ -3,9 +3,9 @@ import React from "react";
 import Transaction from "./Transaction";
 
 // Map through transactions array to create Transaction components
-function TransactionsList({transactions}) {
+function TransactionsList({transactions, deleteTransaction}) {
   const transactionComponent = transactions.map((transaction)=>{
-    return <Transaction key={transaction.id} transaction={transaction}/>
+    return <Transaction key={transaction.id} transaction={transaction} deleteTransaction={deleteTransaction}/>
   })
   return (
     // Table displaying all transactions with headers
