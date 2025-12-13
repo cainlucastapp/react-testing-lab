@@ -1,20 +1,27 @@
+// Dependencies
 import React, {useState, useEffect} from "react";
 import TransactionsList from "./TransactionsList";
 import Search from "./Search";
 import AddTransactionForm from "./AddTransactionForm";
 import Sort from "./Sort";
 
-function AccountContainer() {
-  const [transactions,setTransactions] = useState([])
-  const [search,setSearch] = useState("")
-  // console.log(search)
 
+function AccountContainer() {
+  
+  // Transaction state
+  const [transactions,setTransactions] = useState([])
+
+  // Search state
+  const [search,setSearch] = useState("")
+  
+  // Fetch transactions on initial mount
   useEffect(()=>{
     fetch("http://localhost:6001/transactions")
     .then(r=>r.json())
     .then(data=>setTransactions(data))
   },[])
 
+  // POST new transaction and update state
   function postTransaction(newTransaction){
     fetch('http://localhost:6001/transactions',{
       method: "POST",
@@ -27,14 +34,12 @@ function AccountContainer() {
     .then(data=>setTransactions([...transactions,data]))
   }
   
-  // Sort function here
+  // Sort function
   function onSort(sortBy){
     
   }
 
-  // Filter using search here and pass new variable down
-  
-
+  // Filter using searchand pass new variable down
   return (
     <div>
       <Search setSearch={setSearch}/>

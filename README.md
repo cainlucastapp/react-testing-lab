@@ -2,7 +2,7 @@
 
 ## Student Solution
 -Review Code
--QA session (see QA folder)
+-QA Application (see QA folder)
 -Comment scaffolding
 -Write core tests manually (base edge and fail)
 -Add Copilot suggestions / tweeks / boilerplate 

@@ -1,5 +1,6 @@
 function Sort({onSort}){
     return(
+        // Dropdown to select sort criteria
         <select onChange={(e)=>{
             onSort(e.target.value)
         }}>

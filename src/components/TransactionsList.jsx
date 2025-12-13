@@ -1,11 +1,14 @@
+// Dependencies
 import React from "react";
 import Transaction from "./Transaction";
 
+// Map through transactions array to create Transaction components
 function TransactionsList({transactions}) {
   const transactionComponent = transactions.map((transaction)=>{
     return <Transaction key={transaction.id} transaction={transaction}/>
   })
   return (
+    // Table displaying all transactions with headers
     <table className="ui celled striped padded table">
       <tbody>
         <tr>

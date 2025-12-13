@@ -1,6 +1,9 @@
+// Dependencies
 import React from "react";
 
 function AddTransactionForm({postTransaction}) {
+  
+  // Handle form submission - create transaction object and post it
   function submitForm(e){
     e.preventDefault()
     const newTransaction = {
@@ -15,6 +18,7 @@ function AddTransactionForm({postTransaction}) {
 
   return (
     <div className="ui segment">
+      {/* Form for adding new transactions */}
       <form className="ui form" onSubmit={(e)=>{submitForm(e)}}>
         <div className="inline fields">
           <input type="date" name="date" />

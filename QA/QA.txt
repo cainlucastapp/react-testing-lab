@@ -1,0 +1,8 @@
+Code Review
+    Commented current code.
+    The search feature is not complete.
+    Delete button doesn't function.
+    Sort doesnt function.
+
+
+Added Code
