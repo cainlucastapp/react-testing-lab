@@ -8,11 +8,12 @@ Code Review
 App Review
     The issues found in the code cause the search, sort and delete to not function.
     The form allows submission with invalid or missing values.
-    NPM Audit found 4 vunerablities 
+    NPM Audit found 4 vunerablities.
 
 
 Added Code
-    Search Functionality - Implemented filtering transactions by description (case-insensitive)
-    Sort Functionality - Implemented alphabetical sorting by description or category
-    Delete Functionality - Implemented delete transactions from database by API request
-    
+    Search Functionality - Implemented filtering transactions by description (case-insensitive).
+    Sort Functionality - Implemented alphabetical sorting by description or category.
+    Delete Functionality - Implemented delete transactions from database by API request.
+    Form Validations - Implemented form validations. Fields can't be null, amount can't be zero, date can't be in the future. 
+                       All fields must be filled out.

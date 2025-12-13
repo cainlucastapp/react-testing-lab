@@ -6,25 +6,59 @@ function AddTransactionForm({postTransaction}) {
   // Handle form submission - create transaction object and post it
   function submitForm(e){
     e.preventDefault()
+    
+    // Get form values
+    const date = e.target.date.value
+    const description = e.target.description.value
+    const category = e.target.category.value
+    const amount = e.target.amount.value
+    
+    // Validate all fields are filled
+    if (!date || !description || !category || !amount) {
+      alert("Please fill in all fields")
+      return
+    }
+    
+    // Validate date is not in the future
+    const selectedDate = new Date(date)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    
+    if (selectedDate > today) {
+      alert("Transaction date cannot be in the future")
+      return
+    }
+    
+    // Validate amount is not zero
+    if (parseFloat(amount) === 0) {
+      alert("Amount cannot be zero")
+      return
+    }
+    
     const newTransaction = {
-      date: e.target.date.value,
-      description: e.target.description.value,
-      category: e.target.category.value,
-      amount: e.target.amount.value
+      date: date,
+      description: description,
+      category: category,
+      amount: amount
     }
     postTransaction(newTransaction)
-
+    
+    // Reset form after successful submission
+    e.target.reset()
   }
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0]
 
   return (
     <div className="ui segment">
       {/* Form for adding new transactions */}
       <form className="ui form" onSubmit={(e)=>{submitForm(e)}}>
         <div className="inline fields">
-          <input type="date" name="date" />
-          <input type="text" name="description" placeholder="Description" />
-          <input type="text" name="category" placeholder="Category" />
-          <input type="number" name="amount" placeholder="Amount" step="0.01" />
+          <input type="date" name="date" required max={today} />
+          <input type="text" name="description" placeholder="Description" required />
+          <input type="text" name="category" placeholder="Category" required />
+          <input type="number" name="amount" placeholder="Amount (use - for withdrawals)" step="0.01" required />
         </div>
         <button className="ui button" type="submit">
           Add Transaction
