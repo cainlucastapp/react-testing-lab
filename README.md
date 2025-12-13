@@ -1,5 +1,16 @@
 # Lab: Testing using Vitest
 
+## Student Solution
+-Review Code
+-QA session (see QA folder)
+-Comment scaffolding
+-Write core tests manually (base edge and fail)
+-Add Copilot suggestions / tweeks / boilerplate 
+-Check tests with AI applications (Claude AI).
+-Review / Edit AI Generated Code
+-Refactor tests for additional edge and fail cases
+-Additional tasks (Task 4)
+
 ## Overview
 Now that you have covered creating a testing suite, we can use the key principles of test-driven development to work with an existing app. Normally, you would build the testing while developing, but you were recently brought onto this project to add a testing suite! You are working to implement a testing suite for a banking application that allows users to track their expenditures by submitting and searching through them.
 
@@ -92,4 +103,6 @@ Before we begin coding, let's complete the initial setup for this lesson:
 - The application tests if transactions display on load.
 - The application tests if a new transaction can be added.
 - The application tests if search functionality updates the page correctly.
+
+
 
