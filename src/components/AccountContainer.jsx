@@ -11,8 +11,12 @@ function AccountContainer() {
   // Transaction state
   const [transactions,setTransactions] = useState([])
 
+  // Sort State
+  const [sortBy, setSortBy] = useState("description")
+
   // Search state
   const [search,setSearch] = useState("")
+
   
   // Fetch transactions on initial mount
   useEffect(()=>{
@@ -34,18 +38,25 @@ function AccountContainer() {
     .then(data=>setTransactions([...transactions,data]))
   }
   
-  // Sort function
+  // Update sort criteria
   function onSort(sortBy){
-    
+    setSortBy(sortBy)
   }
 
-  // Filter using searchand pass new variable down
+  // Filter transactions based on search input, then sort alphabetically
+  const filteredTransactions = transactions
+    .filter(transaction =>
+      transaction.description.toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) => a[sortBy].localeCompare(b[sortBy]))
+
+
   return (
     <div>
       <Search setSearch={setSearch}/>
       <AddTransactionForm postTransaction={postTransaction}/>
       <Sort onSort={onSort}/>
-      <TransactionsList transactions={transactions} />
+      <TransactionsList transactions={filteredTransactions} />
     </div>
   );
 }

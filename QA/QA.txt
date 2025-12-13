@@ -1,8 +1,15 @@
 Code Review
-    Commented current code.
-    The search feature is not complete.
-    Delete button doesn't function.
-    Sort doesnt function.
+    Added comments to document component purpose, data flow, and maintainability.
+    The search input exists and triggers change events, but filtering logic is missing.
+    Delete UI elements are present, but the associated handler does not remove transactions.
+    The sort dropdown renders and emits change events, but no sorting logic is applied.
+    
+    
+App Review
+    The issues found in the code cause the search, sort and delete to not function.
+    The form allows submission with invalid or missing values.
 
 
 Added Code
+    Search Functionality - Implemented filtering transactions by description (case-insensitive)
+    Sort Functionality - Implemented alphabetical sorting by description or category
