@@ -1,7 +1,7 @@
 //Dependencies 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import TransactionsList from '../../components/TransactionsList';
 import Transaction from '../../components/Transaction';
 
@@ -45,7 +45,7 @@ const mockTransactions = [
 ];
 
 
-describe('Test TransactionsList / Transaction Component', () => {
+describe('Test TransactionsList and child components (Transaction) ', () => {
   
   describe('Base Tests', () => {
    
@@ -105,9 +105,44 @@ describe('Test TransactionsList / Transaction Component', () => {
     });
 
     // Test: Delete button renders and calls deleteTransaction with correct ID on click
-
-
-    // Test: Table structure is semantically correct (<table>, <tbody>, <tr>, <th>)
+    test('delete button renders and calls deleteTransaction with correct ID on click', async () => {
+        // Setup user event
+        const user = userEvent.setup();
+        
+        // Mock function
+        const mockDeleteTransaction = vi.fn();
+        
+        // Single transaction to test
+        const singleTransaction = {
+            id: "1",
+            date: "2019-12-01",
+            description: "Paycheck from Bob's Burgers",
+            category: "Income",
+            amount: 1000
+        };
+        
+        // Render Transaction component
+        render(
+            <table>
+            <tbody>
+                <Transaction transaction={singleTransaction} deleteTransaction={mockDeleteTransaction} />
+            </tbody>
+            </table>
+        );
+        
+        // Delete button renders
+        const deleteButton = screen.getByRole('button', { name: /delete/i });
+        expect(deleteButton).toBeInTheDocument();
+        
+        // Click delete button
+        await user.click(deleteButton);
+        
+        // Function called with correct ID
+        expect(mockDeleteTransaction).toHaveBeenCalledWith("1");
+        
+        // Function called exactly once
+        expect(mockDeleteTransaction).toHaveBeenCalledTimes(1);
+    });    
   });
   
 
@@ -163,12 +198,35 @@ describe('Test TransactionsList / Transaction Component', () => {
 
 
     // Test: Special characters in description/category
-
-
-    // Test: Delete button is click multiple times in a row
+    test('transaction with special characters in description/category', () => {
+        // Mock function
+        const mockDeleteTransaction = vi.fn();
+        
+        // Transaction with special characters
+        const specialCharTransaction = [
+            {
+            id: "1",
+            date: "2019-12-01",
+            description: "Bob's <Fancy> Restaurant & Bar",
+            category: "Food & Drink",
+            amount: -25.50
+            }
+        ];
+        
+        // Render component
+        render(<TransactionsList transactions={specialCharTransaction} deleteTransaction={mockDeleteTransaction} />);
+        
+        // Special characters display correctly (not escaped or broken)
+        expect(screen.getByText("Bob's <Fancy> Restaurant & Bar")).toBeInTheDocument();
+        expect(screen.getByText("Food & Drink")).toBeInTheDocument();
+        
+        // Other data renders correctly
+        expect(screen.getByText("2019-12-01")).toBeInTheDocument();
+        expect(screen.getByText("-25.5")).toBeInTheDocument();
+    });
   });
   
-  
+
   describe('Fail Cases', () => {
 
     // Test: transactions prop is null
@@ -203,8 +261,62 @@ describe('Test TransactionsList / Transaction Component', () => {
     });
 
     // Test: transaction object in array is missing 'id' property
+    test('transaction object in array is missing id property', () => {
+        // Mock function
+        const mockDeleteTransaction = vi.fn();
+    
+        // Transaction without 'id' property
+        const transactionWithoutId = [
+            {
+                // id is missing
+                date: "2019-12-01",
+                description: "Transaction without ID",
+                category: "Food",
+                amount: -50.00
+            }];
+            
+            // Suppress console.error for React key warning
+            const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+            
+            // Render component
+            render(<TransactionsList transactions={transactionWithoutId} deleteTransaction={mockDeleteTransaction} />);
+            
+            // Transaction data still displays
+            expect(screen.getByText("Transaction without ID")).toBeInTheDocument();
+            expect(screen.getByText("2019-12-01")).toBeInTheDocument();
+            expect(screen.getByText("Food")).toBeInTheDocument();
+            expect(screen.getByText("-50")).toBeInTheDocument();
+
+            
+            // Restore console.error
+            consoleError.mockRestore();
+        });
 
 
-    // Test: transaction missing all properties (empty object)    
+    // Test: transaction missing all properties (empty object)   
+    test('transaction missing all properties (empty object)', () => {
+        // Mock function
+        const mockDeleteTransaction = vi.fn();
+        
+        // Empty transaction object
+        const emptyTransaction = {};
+        
+        // Render Transaction component
+        render(
+            <table>
+            <tbody>
+                <Transaction transaction={emptyTransaction} deleteTransaction={mockDeleteTransaction} />
+            </tbody>
+            </table>
+        );
+        
+        // All cells will be empty but should exist
+        const cells = screen.getAllByRole('cell');
+        expect(cells).toHaveLength(5);
+        
+        // Delete button still renders
+        const deleteButton = screen.getByRole('button', { name: /delete/i });
+        expect(deleteButton).toBeInTheDocument();
+    });
   });
 });
