@@ -7,12 +7,12 @@ function AddTransactionForm({postTransaction}) {
   function submitForm(e){
     e.preventDefault()
     
-    // Get form values
-    const date = e.target.date.value
-    const description = e.target.description.value
-    const category = e.target.category.value
-    const amount = e.target.amount.value
-    
+    // Get form values using elements collection
+    const date = e.target.elements.date.value
+    const description = e.target.elements.description.value
+    const category = e.target.elements.category.value
+    const amount = e.target.elements.amount.value
+
     // Validate all fields are filled
     if (!date || !description || !category || !amount) {
       alert("Please fill in all fields")
